@@ -27,10 +27,10 @@ PostgreSQL Prometheus Adapter supports:
 make
 ```
 
-### Make a container (optional)
+### Make Docker image
 
 ```shell
-make container
+make image
 ```
 
 ## Running
@@ -87,12 +87,11 @@ Flags:
 #### Run container
 
 ```shell
-podman run --rm \
+docker run --rm \
   --name postgresql-prometheus-adapter \
   -p 9201:9201 \
-  -e DATABASE_URL="user=testuser password=test123 host=192.168.12.36 port=5432 database=testdb" \
-  --detach \
-  crunchydata/postgresql-prometheus-adapterl:latest
+  -e DATABASE_URL="postgres://postgres:password@192.999.22.11:5432/postgres" \
+  pg-prom-adapter:1.1
   ```
 
 #### Stop container

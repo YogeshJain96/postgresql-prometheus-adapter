@@ -1,5 +1,4 @@
 VERSION=1.1
-ORGANIZATION=crunchydata
 
 SOURCES:=$(shell find . -name '*.go'  | grep -v './vendor')
 
@@ -14,14 +13,8 @@ build: $(TARGET)
 $(TARGET): main.go $(SOURCES)
 	go build -ldflags="-X 'main.Version=${VERSION}'" -o $(TARGET)
 
-container: $(TARGET) Dockerfile
-	@#podman rmi $(ORGANIZATION)/$(TARGET):latest $(ORGANIZATION)/$(TARGET):$(VERSION)
-	podman build -t $(ORGANIZATION)/$(TARGET):latest .
-	podman tag $(ORGANIZATION)/$(TARGET):latest $(ORGANIZATION)/$(TARGET):$(VERSION)
-
-container-save: container
-	rm -f $(TARGET)-$(VERSION).tar
-	podman save --output=$(TARGET)-$(VERSION).tar $(ORGANIZATION)/$(TARGET):$(VERSION)
+image: 
+	 docker build . -t pg-prom-adapter:${VERSION} -f Dockerfile
 
 clean:
 	rm -f *~ $(TARGET)
