@@ -54,7 +54,7 @@ export DATABASE_URL=...
 ```shell
 Default: None
 Description: Database connection parameters
-Ex: “user=<> password=<> host=<> port=<> database=<>”
+Ex: "postgres://postgresuser:password@host:5432/postgres"
 ```
 
 #### Adapter parameters
@@ -92,12 +92,26 @@ docker run --rm \
   -p 9201:9201 \
   -e DATABASE_URL="postgres://postgres:password@192.999.22.11:5432/postgres" \
   pg-prom-adapter:1.1
-  ```
+```
 
 #### Stop container
 
 ```shell
-podman stop postgresql-prometheus-adapter
+docker stop postgresql-prometheus-adapter
+```
+
+### Docker Compose
+
+#### Run Docker Compose
+
+```shell
+docker compose up
+```
+
+#### Stop Docker Compose
+
+```shell
+docker compose down
 ```
 
 #### Adapter ENV

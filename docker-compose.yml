@@ -1,0 +1,29 @@
+version: "3"
+services:
+  pgdb:
+    image: postgres:14-alpine
+    container_name: pgdb
+    restart: on-failure
+    environment:
+      POSTGRES_USER: dockeruser
+      POSTGRES_PASSWORD: pass
+    ports:
+      - '5432:5432'
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dockeruser"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+  
+  postgresql-prometheus-adapter:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    restart: always
+    environment:
+      - DATABASE_URL=postgres://dockeruser:pass@pgdb:5432/postgres
+    depends_on:
+      pgdb:
+        condition: service_healthy
+    ports:
+      - "9201:9201"
